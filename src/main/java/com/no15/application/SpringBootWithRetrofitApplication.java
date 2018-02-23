@@ -37,6 +37,12 @@ public class SpringBootWithRetrofitApplication implements CommandLineRunner {
 			@Override
 			public void onResponse(Call<User> call, Response<User> response) {
 				User user = response.body();
+				if(null == user){
+					LOGGER.info("Record not found with : " + userName);
+					System.exit(0);
+				}
+
+
 				LOGGER.info("Login : " + user.getLogin());
 				LOGGER.info("Username : " + user.getName());
 				LOGGER.info("Blog : " + user.getBlog());
