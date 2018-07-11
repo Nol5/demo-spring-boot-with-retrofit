@@ -17,11 +17,11 @@ public class SpringBootWithRetrofitApplication implements CommandLineRunner {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SpringBootWithRetrofitApplication.class);
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootWithRetrofitApplication.class, args);
+		SpringApplication.run(SpringBootWithRetrofitApplication.class, args).close();
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 
 		String userName = args[0];
 
@@ -39,23 +39,20 @@ public class SpringBootWithRetrofitApplication implements CommandLineRunner {
 				User user = response.body();
 				if(null == user){
 					LOGGER.info("Record not found with : " + userName);
-					System.exit(0);
+				}else {
+					LOGGER.info("Login : " + user.getLogin());
+					LOGGER.info("Username : " + user.getName());
+					LOGGER.info("Blog : " + user.getBlog());
+					LOGGER.info("Bio : " + user.getBio());
+					LOGGER.info("Avatar Url : " + user.getAvatarUrl());
 				}
-
-
-				LOGGER.info("Login : " + user.getLogin());
-				LOGGER.info("Username : " + user.getName());
-				LOGGER.info("Blog : " + user.getBlog());
-				LOGGER.info("Bio : " + user.getBio());
-				LOGGER.info("Avatar Url : " + user.getAvatarUrl());
-				System.exit(0);
 			}
 
 			@Override
 			public void onFailure(Call<User> call, Throwable t) {
 				LOGGER.info("Error Msg : " + t.getMessage());
-				System.exit(0);
 			}
+
 		});
 	}
 }
